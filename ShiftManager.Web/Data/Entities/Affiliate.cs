@@ -9,10 +9,11 @@ public class Affiliate : Person
 {
     public Affiliate() {}
     
-    public Affiliate(string? password, string? photoUrl, string? membershipCardUrl, bool active)
+    public Affiliate(string? password, DocumentType documenttype, string? photoUrl, string? membershipCardUrl, bool active)
     {
         Password = password;
         Role = AffiliateRole.Member;
+        DocumentType = documenttype;
         MembershipNumber = Guid.NewGuid().ToString();
         PhotoUrl = photoUrl;
         MembershipCardUrl = membershipCardUrl;
@@ -23,6 +24,7 @@ public class Affiliate : Person
     
     public string? Password { get; set; }
     public AffiliateRole Role { get; set; } = AffiliateRole.Member;
+    public DocumentType DocumentType { get; set; }
     public string MembershipNumber { get; set; } = Guid.NewGuid().ToString();
     
     public string? PhotoUrl { get; set; }
@@ -30,4 +32,5 @@ public class Affiliate : Person
     public string? MembershipCardUrl { get; set; }
     public string? UniqueCode { get; set; } = Guid.NewGuid().ToString();
     public bool Active { get; set; } = true;
+    public bool ProfileComplete { get; set; } = false;
 }

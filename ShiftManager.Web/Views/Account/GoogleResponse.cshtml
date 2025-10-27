@@ -1,11 +1,11 @@
 @{
-    ViewData["Title"] = "Bienvenido";
-    var nombre = User.Identity?.Name ?? "usuario"; // obtiene el nombre de Google
+    ViewData["Title"] = "Welcome";
+    var name = User.Identity?.Name ?? "usuario"; // gets the name Google
 }
 
 <div class="container text-center mt-5">
-    <h2>✅ Inicio de sesión exitoso</h2>
-    <p>Has iniciado sesión con tu cuenta de Google, <strong>@nombre</strong>.</p>
+    <h2>✅ Login successful</h2>
+    <p>You are logged in with your Google account, <strong>@name</strong>.</p>
 
-    <a href="/logout" class="btn btn-danger mt-3">Cerrar sesión</a>
+    <a href="/logout" class="btn btn-danger mt-3">Log out</a>
 </div>

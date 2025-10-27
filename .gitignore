@@ -3,6 +3,8 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+/ShiftManager.Web/credentials.json
+
 # dotenv files
 .env
 

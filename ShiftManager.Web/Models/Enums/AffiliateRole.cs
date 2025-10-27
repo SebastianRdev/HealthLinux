@@ -4,5 +4,5 @@ public enum AffiliateRole
 {
     Member,
     Admin,
-    Doctor
+    Staff
 }

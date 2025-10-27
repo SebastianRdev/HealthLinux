@@ -10,23 +10,26 @@ var builder = WebApplication.CreateBuilder(args);
 
 Env.Load();
 
-// CONFIGURAR SERVICIOS PRINCIPALES
+// Configure main services
 builder.Services
-    .AddDatabase(builder.Configuration)         // Configuración de la base de datos
-    .AddGoogleAuthentication()                  // Configuración de autenticación Google
-    .AddControllersWithViews();                 // MVC clásico (controladores + vistas)
+    .AddDatabase(builder.Configuration)         // Database configuration
+    .AddGoogleAuthentication()                  // Google authentication settings
+    .AddControllersWithViews();                 // Classic MVC (controllers + views)
+    
 
 builder.Services
     .AddScoped<IAffiliateRepository, AffiliateRepository>()
     .AddScoped<IAffiliateService, AffiliateService>();
 
-builder.Services.AddHttpContextAccessor();   // Para acceder a HttpContext desde las vistas
+builder.Services.AddHttpContextAccessor();   // To access HttpContext from views
+builder.Services.AddSingleton(new GoogleDriveService("/home/Cohorte3/Música/ShiftManager.Web/credentials.json"));
 
-// CONSTRUCCIÓN DE LA APLICACIÓN
+
+// Application Development
 var app = builder.Build();
 
 
-// PIPELINE DE MIDDLEWARE
+// Middleware Pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -43,24 +46,12 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
-// RUTEO PRINCIPAL
+// Main Route
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-/*
-app.MapControllerRoute(
-    name: "login",
-    pattern: "login",
-    defaults: new { controller = "Account", action = "Login" });
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");*/
-
-
-
-// 🧪 PRUEBA DE CONEXIÓN A BD (solo en desarrollo)
+// DB Connection Test (only in development)
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -68,12 +59,12 @@ using (var scope = app.Services.CreateScope())
     try
     {
         db.Database.OpenConnection();
-        Console.WriteLine("✅ Conexión exitosa a la base de datos.");
+        Console.WriteLine("✅ Successful connection to the database");
         db.Database.CloseConnection();
     }
     catch (Exception ex)
     {
-        Console.WriteLine("❌ Error al conectar con la base de datos:");
+        Console.WriteLine("❌ Error connecting to the database:");
         Console.WriteLine(ex.Message);
     }
 }

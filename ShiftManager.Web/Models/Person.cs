@@ -1,3 +1,5 @@
+using ShiftManager.Web.Models.Enums;
+
 namespace ShiftManager.Web.Models;
 
 using System.ComponentModel.DataAnnotations;
@@ -13,6 +15,9 @@ public class Person
     public string Identification { get; set; }
     [Required]
     public DateOnly BirthDate { get; set; }
+    [Required]
+    public DocumentType DocumentType { get; set; }
+    [Required]
     public string Email { get; set; }
     [Required]
     public string Phone { get; set; }

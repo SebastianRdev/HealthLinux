@@ -19,8 +19,8 @@
             </ul>
         </div>
     
-        <!-- Usuario logueado -->
-        @if (User.Identity.IsAuthenticated && (TempData["IncompleteProfile"] == null))
+        <!-- Logged-in user -->
+        @if (User.Identity.IsAuthenticated)
         {
         <div class="dropdown">
             <a class="d-flex align-items-center text-decoration-none dropdown-toggle"
