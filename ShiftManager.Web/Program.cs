@@ -15,14 +15,18 @@ builder.Services
     .AddDatabase(builder.Configuration)         // Database configuration
     .AddGoogleAuthentication()                  // Google authentication settings
     .AddControllersWithViews();                 // Classic MVC (controllers + views)
-    
 
 builder.Services
     .AddScoped<IAffiliateRepository, AffiliateRepository>()
     .AddScoped<IAffiliateService, AffiliateService>();
 
 builder.Services.AddHttpContextAccessor();   // To access HttpContext from views
-builder.Services.AddSingleton(new GoogleDriveService("/home/Cohorte3/Música/ShiftManager.Web/credentials.json"));
+
+var cloudName = Environment.GetEnvironmentVariable("CLOUDINARY_CLOUD_NAME")!;
+var apiKey = Environment.GetEnvironmentVariable("CLOUDINARY_API_KEY")!;
+var apiSecret = Environment.GetEnvironmentVariable("CLOUDINARY_API_SECRET")!;
+builder.Services.AddSingleton(new CloudinaryService(cloudName, apiKey, apiSecret));
+
 
 
 // Application Development

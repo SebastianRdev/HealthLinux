@@ -10,12 +10,12 @@ using Microsoft.AspNetCore.Authentication;
 public class AffiliateService : IAffiliateService
 {
     private readonly IAffiliateRepository _repository;
-    private readonly GoogleDriveService _googleDriveService;
+    private readonly CloudinaryService _cloudinaryService;
 
-    public AffiliateService(IAffiliateRepository repository, GoogleDriveService googleDriveService)
+    public AffiliateService(IAffiliateRepository repository, CloudinaryService cloudinaryService)
     {
         _repository = repository;
-        _googleDriveService = googleDriveService;
+        _cloudinaryService = cloudinaryService;
     }
     
     // Login normal
@@ -35,17 +35,18 @@ public class AffiliateService : IAffiliateService
         var exists = await _repository.GetByEmailAsync(affiliate.Email);
         if (exists != null) return (false, null);
 
-        // Automatic values
+        // Valores automáticos
         if (string.IsNullOrWhiteSpace(affiliate.UniqueCode))
             affiliate.UniqueCode = Guid.NewGuid().ToString();
         if (string.IsNullOrWhiteSpace(affiliate.MembershipNumber))
             affiliate.MembershipNumber = $"M-{DateTime.UtcNow:yyyyMMddHHmmss}";
 
-        // Upload photo if available
+        // Subir foto si existe
         if (photo != null)
         {
-            var photoUrl = await _googleDriveService.UploadPhotoAsync(photo.OpenReadStream(), affiliate.UniqueCode);
-            affiliate.PhotoUrl = photoUrl;
+            using var stream = photo.OpenReadStream();
+            var publicId = await _cloudinaryService.UploadPrivatePhotoAsync(stream, affiliate.UniqueCode);
+            affiliate.PhotoUrl = publicId; // ⭐ Guardamos el PublicId, NO la URL
         }
 
         await _repository.AddAsync(affiliate);
@@ -126,6 +127,9 @@ public class AffiliateService : IAffiliateService
 
         if (profileComplete)
             claims.Add(new Claim("ProfileComplete", "True"));
+        
+        if (!string.IsNullOrEmpty(user.PhotoUrl))
+            claims.Add(new Claim("PhotoPublicId", user.PhotoUrl));
 
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         return new ClaimsPrincipal(identity);

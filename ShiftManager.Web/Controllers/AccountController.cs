@@ -10,12 +10,12 @@ namespace ShiftManager.Web.Controllers;
 public class AccountController : Controller
 {
     private readonly IAffiliateService _affiliateService;
-    private readonly GoogleDriveService _googleDriveService;
+    private readonly CloudinaryService _cloudinaryService;
 
-    public AccountController(IAffiliateService affiliateService, GoogleDriveService googleDriveService)
+    public AccountController(IAffiliateService affiliateService, CloudinaryService cloudinaryService)
     {
         _affiliateService = affiliateService;
-        _googleDriveService = googleDriveService;
+        _cloudinaryService = cloudinaryService;
     }
 
     [HttpGet]

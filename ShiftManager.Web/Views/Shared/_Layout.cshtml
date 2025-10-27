@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using ShiftManager.Web.Helpers
+@using ShiftManager.Web.Services
+@inject CloudinaryService CloudinaryService
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -9,24 +13,26 @@
     <link rel="stylesheet" href="~/ShiftManager.Web.styles.css" asp-append-version="true"/>
 </head>
 <body>
-    <header class="navbar navbar-expand-lg navbar-light bg-light shadow-sm px-4">
-        <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">ShiftManager.Web</a>
+<header class="navbar navbar-expand-lg navbar-light bg-light shadow-sm px-4">
+    <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">ShiftManager.Web</a>
     
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
-                <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
-            </ul>
-        </div>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+        </ul>
+    </div>
     
-        <!-- Logged-in user -->
-        @if (User.Identity.IsAuthenticated)
-        {
+    @if (User.Identity.IsAuthenticated)
+    {
         <div class="dropdown">
             <a class="d-flex align-items-center text-decoration-none dropdown-toggle"
                href="#" role="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
-                     alt="User Avatar" width="32" height="32" class="rounded-circle me-2" />
+                
+                <img src="@LayoutHelper.GetUserPhotoUrl(User, CloudinaryService)" 
+                     alt="User Avatar" width="32" height="32" class="rounded-circle me-2"
+                     onerror="this.src='https://cdn-icons-png.flaticon.com/512/847/847969.png'" />
+                
                 <span>@User.Identity.Name</span>
             </a>
     
@@ -40,8 +46,8 @@
                 </li>
             </ul>
         </div>
-        }
-    </header>
+    }
+</header>
 
     <div class="container">
         <main role="main" class="pb-3">
