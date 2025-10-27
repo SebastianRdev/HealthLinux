@@ -1,0 +1,40 @@
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg p-4" style="border-radius: 1rem; max-width: 450px; width: 100%;">
+        <h2 class="text-center mb-4">Affiliate Login</h2>
+        
+    <form asp-controller="Account" asp-action="Login" method="post">
+        <div class="form-group mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input id="email" name="email" type="email" class="form-control" required />
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input id="password" name="password" type="password" class="form-control" required />
+            </div>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger mt-2">@ViewBag.Error</div>// en el login me redirige
+            }
+
+            <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
+        </form>
+
+        <div class="text-center mb-3">
+            <a asp-action="Register" class="btn btn-link">Don't have an account? Register</a>
+        </div>
+
+        <div class="text-center mt-4">
+            <span class="d-block mb-3">Or</span>
+            <a asp-controller="Account" asp-action="GoogleLogin" class="btn btn-light border d-flex align-items-center justify-content-center gap-2" style="border-radius: 50px;">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo" width="24" height="24">
+                <span>Sign in with Google</span>
+            </a>
+        </div>
+    </div>
+</div>

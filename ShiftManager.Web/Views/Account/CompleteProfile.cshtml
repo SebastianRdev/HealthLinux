@@ -1,0 +1,59 @@
+﻿@model ShiftManager.Web.Data.Entities.Affiliate
+
+@{
+    ViewData["Title"] = "Complete Your Profile";
+}
+
+<div class="container mt-5">
+    <div class="card shadow p-4 mx-auto" style="max-width: 600px;">
+        <h3 class="text-center mb-4">Complete Your Profile</h3>
+
+        @* Mostrar alertas si hay errores o mensajes *@
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger">@ViewBag.Error</div>
+        }
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+        }
+
+        <form asp-action="CompleteProfile" asp-controller="Account" method="post">
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" asp-for="Name" />
+            <input type="hidden" asp-for="LastName" />
+            <input type="hidden" asp-for="Email" />
+
+            <div class="mb-3">
+                <label asp-for="Identification" class="form-label"></label>
+                <input asp-for="Identification" class="form-control" />
+                <span asp-validation-for="Identification" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Phone" class="form-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Address" class="form-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="BirthDate" class="form-label"></label>
+                <input asp-for="BirthDate" type="date" class="form-control" />
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Save Profile</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

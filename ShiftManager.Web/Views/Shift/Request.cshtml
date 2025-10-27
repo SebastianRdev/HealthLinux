@@ -1,0 +1,29 @@
+﻿@{
+ViewData["Title"] = "Request Shift";
+}
+
+<h2 class="text-center mb-4">Request Shift</h2>
+
+<form asp-action="Request" method="post" class="text-center">
+    <div class="form-group mb-3">
+        <label for="identification">Identification</label>
+        <input type="text" class="form-control text-center" name="identification" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Request</button>
+</form>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if (TempData["ErrorMessage"] != null)
+{
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'You are not Affiliate',
+        text: '@TempData["ErrorMessage"]',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#3085d6'
+    });
+</script>
+}

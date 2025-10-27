@@ -1,0 +1,17 @@
+﻿@{
+ViewData["Title"] = "Welcome to Health Linux";
+}
+
+<div class="text-center mt-5">
+    <h1 class="display-4 mb-4">Shift Manager System</h1>
+    <p class="lead mb-5">Welcome to the Linux healthcare system</p>
+
+    <div class="d-flex justify-content-center gap-3">
+        @if (!User.Identity.IsAuthenticated)
+        {
+        <a class="btn btn-primary btn-lg" href="/Account/Login">Login</a>
+        }
+
+        <a class="btn btn-success btn-lg" href="/Shift/Request">Request Shift</a>
+    </div>
+</div>
